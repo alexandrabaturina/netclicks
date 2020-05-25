@@ -34,10 +34,10 @@ const tvCards = document.querySelectorAll('.tv-card__img')
 for (let i = 0; i < tvCards.length; i++) {
     let originalImage = tvCards[i].src;
     let newImage = tvCards[i].getAttribute("data-backdrop");
-    tvCards[i].onmouseover = function (event) {
+    tvCards[i].addEventListener('mouseenter', event => {
         tvCards[i].src = newImage;
-    }
-    tvCards[i].onmouseout = function (event) {
+    });
+    tvCards[i].addEventListener('mouseout', event => {
         tvCards[i].src = originalImage;
-    }
+    })
 }
