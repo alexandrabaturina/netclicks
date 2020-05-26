@@ -72,17 +72,14 @@ modalWindow.addEventListener('click', event => {
 });
 
 // Change images on tv cards onmouseover
-// Instructor's option
+// Instructor's option using destructuring assignment in array
 const changeImage = event => {
     const card = event.target.closest('.tv-shows__item');
 
-    // console.log(target.matches('.tv-card__img'))
     if (card) {
         const img = card.querySelector('.tv-card__img');
-        const changeImg = img.dataset.backdrop;
-        if (changeImg) {
-            img.dataset.backdrop = img.src;
-            img.src = changeImg;
+        if (img.dataset.backdrop) {
+            [img.src, img.dataset.backdrop] = [img.dataset.backdrop, img.src];
         }
     }
 };
