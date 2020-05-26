@@ -51,6 +51,7 @@ const modalWindow = document.querySelector('.modal');
 
 // Open modal window
 tvShowsList.addEventListener('click', event => {
+    event.preventDefault();
     const target = event.target;
     const card = target.closest('.tv-card');
 
