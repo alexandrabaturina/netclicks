@@ -59,7 +59,10 @@ tvShowsList.addEventListener('click', event => {
 
 // Close modal window
 modalWindow.addEventListener('click', event => {
-    if (event.target.closest('.cross')) {
+    const target = event.target;
+    const cross = target.closest('.cross');
+
+    if (cross) {
         document.body.style.overflow = '';
         modalWindow.classList.add('hide');
     }
