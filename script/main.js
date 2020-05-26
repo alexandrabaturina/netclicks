@@ -1,4 +1,5 @@
-// Day 1 – Work with menu
+// ==== DAY 1 ====
+// Work with menu
 
 const leftMenu = document.querySelector('.left-menu');
 const hamburger = document.querySelector('.hamburger');
@@ -30,7 +31,7 @@ leftMenu.addEventListener('click', event => {
 });
 
 // // Change images on tv cards onmouseover
-// // Homework for day 1. My option
+// // HOMEWORK FOR DAY 1. My option
 // const tvCards = document.querySelectorAll('.tv-card__img')
 // for (let i = 0; i < tvCards.length; i++) {
 //     let originalImage = tvCards[i].src;
@@ -45,7 +46,7 @@ leftMenu.addEventListener('click', event => {
 
 
 
-// ====== Day 2======
+// ==== DAY 2 ====
 const tvShowsList = document.querySelector('.tv-shows__list');
 const modalWindow = document.querySelector('.modal');
 
@@ -88,3 +89,20 @@ const changeImage = event => {
 tvShowsList.addEventListener('mouseover', changeImage);
 tvShowsList.addEventListener('mouseout', changeImage);
 
+// Get data from server
+const DBService = class {
+    getData = async (url) => {
+        const res = await fetch(url);
+        if (res.ok) {
+            return res.json();
+        } else {
+            throw new Error(`Failed to get data from ${url}`)
+        }
+    }
+
+    getTestData = () => {
+        return this.getData('test.json')
+    }
+}
+
+new DBService().getTestData().then(renderCard);
