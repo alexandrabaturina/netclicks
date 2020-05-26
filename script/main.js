@@ -29,18 +29,21 @@ leftMenu.addEventListener('click', event => {
     }
 });
 
-// Change images on tv cards onmouseover
-const tvCards = document.querySelectorAll('.tv-card__img')
-for (let i = 0; i < tvCards.length; i++) {
-    let originalImage = tvCards[i].src;
-    let newImage = tvCards[i].getAttribute("data-backdrop");
-    tvCards[i].addEventListener('mouseenter', event => {
-        tvCards[i].src = newImage;
-    });
-    tvCards[i].addEventListener('mouseout', event => {
-        tvCards[i].src = originalImage;
-    })
-}
+// // Change images on tv cards onmouseover
+// // Homework for day 1. My option
+// const tvCards = document.querySelectorAll('.tv-card__img')
+// for (let i = 0; i < tvCards.length; i++) {
+//     let originalImage = tvCards[i].src;
+//     let newImage = tvCards[i].getAttribute("data-backdrop");
+//     tvCards[i].addEventListener('mouseenter', event => {
+//         tvCards[i].src = newImage;
+//     });
+//     tvCards[i].addEventListener('mouseout', event => {
+//         tvCards[i].src = originalImage;
+//     })
+// };
+
+
 
 // ====== Day 2======
 const tvShowsList = document.querySelector('.tv-shows__list');
@@ -62,8 +65,28 @@ modalWindow.addEventListener('click', event => {
     const target = event.target;
     const cross = target.closest('.cross');
 
-    if (cross) {
+    if (cross || target.classList.contains('modal')) {
         document.body.style.overflow = '';
         modalWindow.classList.add('hide');
     }
-})
+});
+
+// Change images on tv cards onmouseover
+// Instructor's option
+const changeImage = event => {
+    const card = event.target.closest('.tv-shows__item');
+
+    // console.log(target.matches('.tv-card__img'))
+    if (card) {
+        const img = card.querySelector('.tv-card__img');
+        const changeImg = img.dataset.backdrop;
+        if (changeImg) {
+            img.dataset.backdrop = img.src;
+            img.src = changeImg;
+        }
+    }
+};
+
+tvShowsList.addEventListener('mouseover', changeImage);
+tvShowsList.addEventListener('mouseout', changeImage);
+
