@@ -41,3 +41,18 @@ for (let i = 0; i < tvCards.length; i++) {
         tvCards[i].src = originalImage;
     })
 }
+
+// ====== Day 2======
+const tvShowsList = document.querySelector('.tv-shows__list');
+const modalWindow = document.querySelector('.modal');
+
+// Open modal window
+tvShowsList.addEventListener('click', event => {
+    const target = event.target;
+    const card = target.closest('.tv-card');
+
+    if (card) {
+        document.body.style.overflow = 'hidden';
+        modalWindow.classList.remove('hide');
+    }
+})
