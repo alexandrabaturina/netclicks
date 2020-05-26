@@ -56,3 +56,11 @@ tvShowsList.addEventListener('click', event => {
         modalWindow.classList.remove('hide');
     }
 })
+
+// Close modal window
+modalWindow.addEventListener('click', event => {
+    if (event.target.closest('.cross')) {
+        document.body.style.overflow = '';
+        modalWindow.classList.add('hide');
+    }
+})
