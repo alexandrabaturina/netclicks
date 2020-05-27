@@ -123,18 +123,21 @@ const renderCard = response => {
 
         // If no poster, render img/no-poster.jpg
         const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg';
-        const backdropIMG = '';
-        const voteElem = '';
+        // If no backdrop, don't change poster
+        const backdropIMG = backdrop ? IMG_URL + backdrop : posterIMG;
+        // If vote = 0, don't show span
+        const voteElem = vote ? vote : '';
+        const tvCardVoteClass = vote ? "tv-card__vote" : '';
 
 
         const card = document.createElement('li');
         card.classList.add('tv-shows__item');
         card.innerHTML = `
             <a href="#" class="tv-card">
-                <span class="tv-card__vote">${vote}</span>
+            <span class=${tvCardVoteClass}>${voteElem}</span>
                 <img class="tv-card__img"
                     src="${posterIMG}"
-                    data-backdrop="${IMG_URL + backdrop}"
+                    data-backdrop="${backdropIMG}"
                     alt="${title}">
                 <h4 class="tv-card__head">${title}</h4>
             </a>
