@@ -1,3 +1,6 @@
+// config.js where API key is stored is added to .gitignore
+const apiKey = apiconfig.API_KEY;
+
 // ==== DAY 1 ====
 // Work with menu
 
