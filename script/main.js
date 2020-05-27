@@ -1,3 +1,5 @@
+const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2';
+
 // config.js where API key is stored is added to .gitignore
 const apiKey = apiconfig.API_KEY;
 
@@ -11,6 +13,17 @@ const hamburger = document.querySelector('.hamburger');
 const tvShows = document.querySelector('.tv-shows');
 const loading = document.createElement('div');
 loading.classList.add('loading');
+
+const div = document.getElementsByTagName('div');
+console.log('div');
+
+const tvCardImg = document.querySelector('.tv-card__img');
+const modalTitle = document.querySelector('.modal__title');
+const genresList = document.querySelector('.genres-list');
+const rating = document.querySelector('.rating');
+const description = document.querySelector('.description');
+const modalLink = document.querySelector('.modal__link');
+
 
 
 
@@ -67,8 +80,33 @@ tvShowsList.addEventListener('click', event => {
     const card = target.closest('.tv-card');
 
     if (card) {
-        document.body.style.overflow = 'hidden';
-        modalWindow.classList.remove('hide');
+
+        // Fill in modal window
+        new DBService().getTestCard()
+            .then(response => {
+                console.log(response);
+                tvCardImg.src = IMG_URL + response.poster_path;
+                modalTitle.textContent = response.name;
+                // genresList.innerHTML = response.genres.reduce((acc, item) => {
+                //     return `${acc}<li>${item.name}</li>`
+                // }, '')
+
+                // Clear genres list
+                genresList.textContent = '';
+
+                for (const item of response.genres) {
+                    genresList.innerHTML += `<li>${item.name}</li>`;
+                }
+
+                // Alternative option using forEach
+                // response.genres.forEach(item => {
+                //    genresList.innerHTML += `<li>${item.name}</li>`;
+                //})
+            })
+            .then(() => {
+                document.body.style.overflow = 'hidden';
+                modalWindow.classList.remove('hide');
+            })
     }
 })
 
@@ -111,12 +149,16 @@ const DBService = class {
     }
 
     getTestData = () => {
-        return this.getData('test.json')
+        return this.getData('test.json');
+    }
+
+    getTestCard = () => {
+        return this.getData('card.json');
     }
 }
 
 // Render card
-const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2';
+
 
 const renderCard = response => {
     console.log(response);
@@ -165,7 +207,9 @@ const renderCard = response => {
 
 };
 
-tvShowsList.append(loading);
-new DBService().getTestData().then(renderCard);
+{
+    tvShowsList.append(loading);
+    new DBService().getTestData().then(renderCard);
+}
 
 // ==== DAY 3 ====
