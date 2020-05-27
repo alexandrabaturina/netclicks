@@ -128,10 +128,17 @@ const renderCard = response => {
         const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg';
         // If no backdrop, don't change poster
         const backdropIMG = backdrop ? IMG_URL + backdrop : posterIMG;
+
+        //        Instructor's option for backdrop
+        //        const backdropIMG = backdrop ? IMG_URL + backdrop : '';
+
         // If vote = 0, don't show span
         const voteElem = vote ? vote : '';
         const tvCardVoteClass = vote ? "tv-card__vote" : '';
 
+        //        Instructor's option for span
+        //        const voteElem = vote ? `<span class=${tvCardVoteClass}>${voteElem}</span>` : ''     
+        //        Insert ${voteElem} instead of span in card.innerHTML
 
         const card = document.createElement('li');
         card.classList.add('tv-shows__item');
