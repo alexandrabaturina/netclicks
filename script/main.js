@@ -1,7 +1,8 @@
 const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2';
 
 // config.js where API key is stored is added to .gitignore
-const apiKey = apiconfig.API_KEY;
+const API_KEY = apiconfig.API_KEY;
+const API_ENDPOINT = 'https://api.themoviedb.org/3';
 
 // ==== DAY 1 ====
 // Work with menu
@@ -14,9 +15,10 @@ const tvShows = document.querySelector('.tv-shows');
 const loading = document.createElement('div');
 loading.classList.add('loading');
 
-const div = document.getElementsByTagName('div');
-console.log('div');
+// const div = document.getElementsByTagName('div');
+// console.log('div');
 
+// Consts for modal window
 const tvCardImg = document.querySelector('.tv-card__img');
 const modalTitle = document.querySelector('.modal__title');
 const genresList = document.querySelector('.genres-list');
@@ -24,8 +26,33 @@ const rating = document.querySelector('.rating');
 const description = document.querySelector('.description');
 const modalLink = document.querySelector('.modal__link');
 
+// Consts for search
+const searchForm = document.querySelector('.search__form');
+const searchFormInput = document.querySelector('.search__form-input');
 
+// Get data from server
+const DBService = class {
+    getData = async (url) => {
+        const res = await fetch(url);
+        if (res.ok) {
+            return res.json();
+        } else {
+            throw new Error(`Failed to get data from ${url}`)
+        }
+    }
 
+    getTestData = () => {
+        return this.getData('test.json');
+    }
+
+    getTestCard = () => {
+        return this.getData('card.json');
+    }
+
+    getSearchResult = (query) => {
+        return this.getData(`${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=ru-RU`);
+    }
+}
 
 // Open/close menu
 hamburger.addEventListener('click', () => {
@@ -137,31 +164,13 @@ const changeImage = event => {
 tvShowsList.addEventListener('mouseover', changeImage);
 tvShowsList.addEventListener('mouseout', changeImage);
 
-// Get data from server
-const DBService = class {
-    getData = async (url) => {
-        const res = await fetch(url);
-        if (res.ok) {
-            return res.json();
-        } else {
-            throw new Error(`Failed to get data from ${url}`)
-        }
-    }
 
-    getTestData = () => {
-        return this.getData('test.json');
-    }
 
-    getTestCard = () => {
-        return this.getData('card.json');
-    }
-}
 
 // Render card
 
 
 const renderCard = response => {
-    console.log(response);
     // Clear list
     tvShowsList.textContent = '';
     response.results.forEach(item => {
@@ -207,9 +216,20 @@ const renderCard = response => {
 
 };
 
-{
-    tvShowsList.append(loading);
-    new DBService().getTestData().then(renderCard);
-}
+// Handle search form
+searchForm.addEventListener('submit', event => {
+    event.preventDefault();
+    // Remove spaces at the beginning and at the end of query
+    const value = searchFormInput.value.trim();
+    if (value) {
+        tvShowsList.append(loading);
+        new DBService().getSearchResult(value).then(renderCard);
+    }
+    console.log(value);
+    // Clear search form after request
+    searchFormInput.value = '';
+
+});
+
 
 // ==== DAY 3 ====
