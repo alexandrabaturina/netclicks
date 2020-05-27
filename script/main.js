@@ -7,6 +7,13 @@ const apiKey = apiconfig.API_KEY;
 const leftMenu = document.querySelector('.left-menu');
 const hamburger = document.querySelector('.hamburger');
 
+// Preloader
+const tvShows = document.querySelector('.tv-shows');
+const loading = document.createElement('div');
+loading.classList.add('loading');
+
+
+
 // Open/close menu
 hamburger.addEventListener('click', () => {
     leftMenu.classList.toggle('openMenu');
@@ -152,8 +159,13 @@ const renderCard = response => {
                 <h4 class="tv-card__head">${title}</h4>
             </a>
         `;
+        loading.remove()
         tvShowsList.append(card);
     });
 
 };
+
+tvShowsList.append(loading);
 new DBService().getTestData().then(renderCard);
+
+// ==== DAY 3 ====
