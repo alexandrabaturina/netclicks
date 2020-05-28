@@ -40,6 +40,9 @@ tvShowsHead = document.querySelector('.tv-shows__head');
 const posterWrapper = document.querySelector('.poster__wrapper');
 const modalContent = document.querySelector('.modal__content');
 
+// Pagination
+const pagination = document.querySelector('.pagination');
+
 // Get data from server
 const DBService = class {
     getData = async (url) => {
@@ -60,7 +63,12 @@ const DBService = class {
     }
 
     getSearchResult = (query) => {
+        this.temp = `${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=ru-RU`;
         return this.getData(`${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=ru-RU`);
+    }
+
+    getNextPage = page => {
+        return this.getData(this.temp + '$page=' + page);
     }
 
     getTvShow = (id) => {
@@ -172,17 +180,18 @@ tvShowsList.addEventListener('click', event => {
         dbService.getTvShow(card.id)
             .then(response => {
 
-                // Hide no-poster picture in modal window
                 if (response.poster_path) {
                     tvCardImg.src = IMG_URL + response.poster_path;
                     tvCardImg.alt = response.name;
-
                     posterWrapper.style.display = '';
+
                 } else {
                     posterWrapper.style.display = 'none';
-                    modalContent.style.paddingLeft = '25px';
                 }
+
+
                 modalTitle.textContent = response.name;
+
                 // Clear genres list
                 genresList.textContent = '';
 
@@ -209,8 +218,10 @@ tvShowsList.addEventListener('click', event => {
         // .finally (() => {
         //    preloader.style.display = '';
         // })
+
     }
-})
+});
+
 
 // Close modal window
 modalWindow.addEventListener('click', event => {
@@ -244,6 +255,8 @@ tvShowsList.addEventListener('mouseout', changeImage);
 const renderCard = (response, target) => {
     // Clear list
     tvShowsList.textContent = '';
+
+    // 
 
     // Handle situations when movies are not found
     const searchResultHeader = document.querySelector('.tv-shows__head');
@@ -304,6 +317,16 @@ const renderCard = (response, target) => {
         loading.remove()
         tvShowsList.append(card);
     });
+
+    // Number of pages fog pagination
+
+    pagination.textContent = '';
+
+    if (!target && response.total_pages > 1) {
+        for (let i = 1; i <= response.total_pages; i++) {
+            pagination.innerHTML += `<li><a href="#" class="pages">${i}</a></li>`;
+        }
+    }
 };
 
 // Handle search form
@@ -319,4 +342,11 @@ searchForm.addEventListener('submit', event => {
     searchFormInput.value = '';
 });
 
-
+pagination.addEventListener('click', (event) => {
+    event.preventDefault();
+    const target = event.target;
+    if (target.classList.contains('pages')) {
+        tvShows.append(loading);
+        dbService.getNextPage(target.textContent).then(renderCard);
+    }
+})
