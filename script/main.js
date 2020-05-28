@@ -76,6 +76,8 @@ const DBService = class {
     getWeek = () => this.getData(`${API_ENDPOINT}/tv/on_the_air?api_key=${API_KEY}&language=ru-RU`);
 }
 
+const dbService = new DBService();
+
 // Open/close menu
 
 // Close dropdown menu when closing main menu
@@ -114,19 +116,19 @@ leftMenu.addEventListener('click', event => {
 
     // Dropdown menu links
     if (target.closest('#top-rated')) {
-        new DBService().getTopRated().then(renderCard);
+        dbService.getTopRated().then((response) => renderCard(response, target));
     }
 
     if (target.closest('#popular')) {
-        new DBService().getPopular().then(renderCard);
+        dbService.getPopular().then((response) => renderCard(response, target));
     }
 
     if (target.closest('#week')) {
-        new DBService().getWeek().then(renderCard);
+        dbService.getWeek().then((response) => renderCard(response, target));
     }
 
     if (target.closest('#today')) {
-        new DBService().getToday().then(renderCard);
+        dbService.getToday().then((response) => renderCard(response, target));
     }
 
 });
@@ -161,7 +163,7 @@ tvShowsList.addEventListener('click', event => {
         tvShows.append(loading);
 
         // Fill in modal window
-        new DBService().getTvShow(card.id)
+        dbService.getTvShow(card.id)
             .then(response => {
 
                 // Hide no-poster picture in modal window
@@ -233,7 +235,7 @@ tvShowsList.addEventListener('mouseout', changeImage);
 
 
 // Render card
-const renderCard = response => {
+const renderCard = (response, target) => {
     // Clear list
     tvShowsList.textContent = '';
 
@@ -259,6 +261,8 @@ const renderCard = response => {
         searchResultHeader.append(notFound);
         return
     }
+
+    tvShowsHead.textContent = target ? target.textContent : "Результат поиска";
 
     // Instructor's option for display message when movie isn't found
     // tvShowsHead.textContent = 'Результат поиска';
@@ -303,7 +307,7 @@ searchForm.addEventListener('submit', event => {
     const value = searchFormInput.value.trim();
     if (value) {
         tvShowsList.append(loading);
-        new DBService().getSearchResult(value).then(renderCard);
+        dbService.getSearchResult(value).then(renderCard);
     }
     // Clear search form after sendingrequest
     searchFormInput.value = '';
