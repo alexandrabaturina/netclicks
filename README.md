@@ -1,31 +1,32 @@
 # Netclicks
 ## Overview
-**Netclicks** is a single-based Javascript web app for searching TV series.
+**Netclicks** is a single-based Java Script web app for searching TV series based on the following criteria.
+* User search input
+* Average vote rating
+* Popularity
+* Airing today
+* Air date in the next 7 days
 
-The app is build on [Glo Academy](https://glo.academy/) Javascript workshop.
+The app is build during [Glo Academy](https://glo.academy/) Java Script workshop and is based on the starter code provided by them.
 ## Features
 The project consists of four parts and solves the following tasks.
 * Part 1
     * Open/close side menu
-    * Close side menu on click outside of menu
     * Add dropdown menu
     * Change images on tv cards on mouseover
 * Part 2
     * Open/close modal window
     * Prevent page from scrolling after modal window opening
-    * Render movie cards (including when some data missed)
+    * Render movie cards
     * Get JSON data from server
-    
 * Part 3
     * Add preloaders
     * Handle search form
     * Fill in modal window
     * Update data in modal window
-    * Handle situations when movie isn't found
-    
 * Part 4
-    * Add links to dropdown menu
     * Close dropdown menu when closing main menu
+    * Add links and API requests to dropdown menu items
     * Pagination
     
 ## Getting Started
