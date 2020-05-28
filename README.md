@@ -24,7 +24,9 @@ The project consists of four parts and solves the following tasks.
     * Handle situations when movie isn't found
     
 * Part 4
-    * Yet to come...
+    * Add links to dropdown menu
+    * Close dropdown menu when closing main menu
+    * Pagination
     
 ## Getting Started
 ### Prerequisites
