@@ -13,6 +13,8 @@ const hamburger = document.querySelector('.hamburger');
 const tvShows = document.querySelector('.tv-shows');
 const loading = document.createElement('div');
 loading.classList.add('loading');
+// Preloader for modal window
+const preloader = document.querySelector('.preloader');
 
 // Consts for modal window
 const tvShowsList = document.querySelector('.tv-shows__list');
@@ -106,6 +108,9 @@ tvShowsList.addEventListener('click', event => {
 
     if (card) {
 
+        // Instructor's option for preloader
+        // preloader.style.display = 'block';
+
         // Show preloader while waiting for modal window to download
         tvShows.append(loading);
 
@@ -138,6 +143,11 @@ tvShowsList.addEventListener('click', event => {
                 modalWindow.classList.remove('hide');
                 loading.remove();
             })
+
+        // Instructor's option for preloader
+        // .then (() => {
+        //    preloader.style.display = '';
+        // })
     }
 })
 
@@ -220,9 +230,7 @@ const renderCard = response => {
         loading.remove()
         tvShowsList.append(card);
     });
-
 };
-
 
 // Handle search form
 searchForm.addEventListener('submit', event => {
