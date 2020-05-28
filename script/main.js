@@ -63,8 +63,8 @@ const DBService = class {
     }
 
     getSearchResult = (query) => {
-        this.temp = `${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=ru-RU`;
-        return this.getData(`${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=ru-RU`);
+        this.temp = `${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=en-EN`;
+        return this.getData(`${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=en-EN`);
     }
 
     getNextPage = page => {
@@ -72,16 +72,16 @@ const DBService = class {
     }
 
     getTvShow = (id) => {
-        return this.getData(`${API_ENDPOINT}/tv/${id}?api_key=${API_KEY}&language=ru-RU`);
+        return this.getData(`${API_ENDPOINT}/tv/${id}?api_key=${API_KEY}&language=en-EN`);
     }
 
-    getTopRated = () => this.getData(`${API_ENDPOINT}/tv/top_rated?api_key=${API_KEY}&language=ru-RU`);
+    getTopRated = () => this.getData(`${API_ENDPOINT}/tv/top_rated?api_key=${API_KEY}&language=en-EN`);
 
-    getPopular = () => this.getData(`${API_ENDPOINT}/tv/popular?api_key=${API_KEY}&language=ru-RU`);
+    getPopular = () => this.getData(`${API_ENDPOINT}/tv/popular?api_key=${API_KEY}&language=en-EN`);
 
-    getToday = () => this.getData(`${API_ENDPOINT}/tv/airing_today?api_key=${API_KEY}&language=ru-RU`);
+    getToday = () => this.getData(`${API_ENDPOINT}/tv/airing_today?api_key=${API_KEY}&language=en-EN`);
 
-    getWeek = () => this.getData(`${API_ENDPOINT}/tv/on_the_air?api_key=${API_KEY}&language=ru-RU`);
+    getWeek = () => this.getData(`${API_ENDPOINT}/tv/on_the_air?api_key=${API_KEY}&language=en-EN`);
 }
 
 const dbService = new DBService();
