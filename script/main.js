@@ -37,6 +37,9 @@ const dropdown = document.querySelectorAll('.dropdown');
 // Instructor's option
 tvShowsHead = document.querySelector('.tv-shows__head');
 
+const posterWrapper = document.querySelector('.poster__wrapper');
+const modalContent = document.querySelector('.modal__content');
+
 // Get data from server
 const DBService = class {
     getData = async (url) => {
@@ -134,11 +137,18 @@ tvShowsList.addEventListener('click', event => {
         // Fill in modal window
         new DBService().getTvShow(card.id)
             .then(response => {
-                console.log(response);
-                tvCardImg.src = IMG_URL + response.poster_path;
-                tvCardImg.alt = response.name;
-                modalTitle.textContent = response.name;
 
+                // Hide no-poster picture in modal window
+                if (response.poster_path) {
+                    tvCardImg.src = IMG_URL + response.poster_path;
+                    tvCardImg.alt = response.name;
+
+                    posterWrapper.style.display = '';
+                } else {
+                    posterWrapper.style.display = 'none';
+                    modalContent.style.paddingLeft = '25px';
+                }
+                modalTitle.textContent = response.name;
                 // Clear genres list
                 genresList.textContent = '';
 
@@ -162,7 +172,7 @@ tvShowsList.addEventListener('click', event => {
             })
 
         // Instructor's option for preloader
-        // .then (() => {
+        // .finally (() => {
         //    preloader.style.display = '';
         // })
     }
