@@ -131,6 +131,12 @@ leftMenu.addEventListener('click', event => {
         dbService.getToday().then((response) => renderCard(response, target));
     }
 
+    // Clear page from posters
+    if (target.closest('#search')) {
+        tvShowsList.textContent = '';
+        tvShowsHead.textContent = '';
+    }
+
 });
 
 // // Change images on tv cards onmouseover
