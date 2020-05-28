@@ -30,6 +30,9 @@ const modalLink = document.querySelector('.modal__link');
 const searchForm = document.querySelector('.search__form');
 const searchFormInput = document.querySelector('.search__form-input');
 
+// Const for dropdown
+const dropdown = document.querySelectorAll('.dropdown');
+
 // Get data from server
 const DBService = class {
     getData = async (url) => {
@@ -59,9 +62,18 @@ const DBService = class {
 }
 
 // Open/close menu
+
+// Close dropdown menu when closing main menu
+const closeDropdown = () => {
+    dropdown.forEach(item => {
+        item.classList.remove('active');
+    })
+};
+
 hamburger.addEventListener('click', () => {
     leftMenu.classList.toggle('openMenu');
     hamburger.classList.toggle('open');
+    closeDropdown();
 
 });
 
@@ -70,8 +82,9 @@ document.addEventListener('click', event => {
     if (!event.target.closest('.left-menu')) {
         leftMenu.classList.remove('openMenu');
         hamburger.classList.remove('open');
+        closeDropdown();
     }
-})
+});
 
 // Drop-down menu
 leftMenu.addEventListener('click', event => {
