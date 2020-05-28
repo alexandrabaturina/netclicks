@@ -4,7 +4,28 @@
 
 The app is build on [Glo Academy](https://glo.academy/) Javascript workshop.
 ## Features
-
+The project consists of four parts and solves the following tasks.
+* Part 1
+    * Open/close side menu
+    * Close side menu on click outside of menu
+    * Add dropdown menu
+    * Change images on tv cards on mouseover
+* Part 2
+    * Open/close modal window
+    * Prevent page from scrolling after modal window opening
+    * Render movie cards (including when some data missed)
+    * Get JSON data from server
+    
+* Part 3
+    * Add preloaders
+    * Handle search form
+    * Fill in modal window
+    * Update data in modal window
+    * Handle situations when movie isn't found
+    
+* Part 4
+    * Yet to come...
+    
 ## Getting Started
 ### Prerequisites
 To use the **Netclicks** web app, the [TMDb](https://www.themoviedb.org/) API is required.
