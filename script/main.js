@@ -1,12 +1,11 @@
 const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2';
 
-// config.js where API key is stored is added to .gitignore
+// Protect API with .gitignore
 const API_KEY = apiconfig.API_KEY;
 const API_ENDPOINT = 'https://api.themoviedb.org/3';
 
-// ==== DAY 1 ====
-// Work with menu
 
+// Consts for menu
 const leftMenu = document.querySelector('.left-menu');
 const hamburger = document.querySelector('.hamburger');
 
@@ -15,10 +14,9 @@ const tvShows = document.querySelector('.tv-shows');
 const loading = document.createElement('div');
 loading.classList.add('loading');
 
-// const div = document.getElementsByTagName('div');
-// console.log('div');
-
 // Consts for modal window
+const tvShowsList = document.querySelector('.tv-shows__list');
+const modalWindow = document.querySelector('.modal');
 const tvCardImg = document.querySelector('.tv-card__img');
 const modalTitle = document.querySelector('.modal__title');
 const genresList = document.querySelector('.genres-list');
@@ -75,6 +73,7 @@ document.addEventListener('click', event => {
 
 // Drop-down menu
 leftMenu.addEventListener('click', event => {
+    event.preventDefault();
     const target = event.target;
     const dropdown = target.closest('.dropdown');
     if (dropdown) {
@@ -99,11 +98,6 @@ leftMenu.addEventListener('click', event => {
 // };
 
 
-
-// ==== DAY 2 ====
-const tvShowsList = document.querySelector('.tv-shows__list');
-const modalWindow = document.querySelector('.modal');
-
 // Open modal window
 tvShowsList.addEventListener('click', event => {
     event.preventDefault();
@@ -117,10 +111,8 @@ tvShowsList.addEventListener('click', event => {
             .then(response => {
                 console.log(response);
                 tvCardImg.src = IMG_URL + response.poster_path;
+                tvCardImg.alt = response.name;
                 modalTitle.textContent = response.name;
-                // genresList.innerHTML = response.genres.reduce((acc, item) => {
-                //     return `${acc}<li>${item.name}</li>`
-                // }, '')
 
                 // Clear genres list
                 genresList.textContent = '';
@@ -129,11 +121,11 @@ tvShowsList.addEventListener('click', event => {
                     genresList.innerHTML += `<li>${item.name}</li>`;
                 };
 
+                // Alternative way to change genresList.innerHTML
+                // genresList.innerHTML = response.genres.reduce((acc, item) => {
+                //     return `${acc}<li>${item.name}</li>`
+                // }, '')
 
-                // Alternative option using forEach
-                // response.genres.forEach(item => {
-                //    genresList.innerHTML += `<li>${item.name}</li>`;
-                //})
                 rating.textContent = response.vote_average;
                 description.textContent = response.overview;
                 modalLink.href = response.homepage;
@@ -176,8 +168,6 @@ tvShowsList.addEventListener('mouseout', changeImage);
 
 
 // Render card
-
-
 const renderCard = response => {
     // Clear list
     tvShowsList.textContent = '';
@@ -191,28 +181,16 @@ const renderCard = response => {
             id
         } = item;
 
-        // If no poster, render img/no-poster.jpg
-        const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg';
-        // If no backdrop, don't change poster
-        const backdropIMG = backdrop ? IMG_URL + backdrop : posterIMG;
-
-        //        Instructor's option for backdrop
-        //        const backdropIMG = backdrop ? IMG_URL + backdrop : '';
-
-        // If vote = 0, don't show span
-        const voteElem = vote ? vote : '';
-        const tvCardVoteClass = vote ? "tv-card__vote" : '';
-
-        //        Instructor's option for span
-        //        const voteElem = vote ? `<span class=${tvCardVoteClass}>${voteElem}</span>` : ''     
-        //        Insert ${voteElem} instead of span in card.innerHTML
+        const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg'; // If no poster, render img/no-poster.jpg
+        const backdropIMG = backdrop ? IMG_URL + backdrop : posterIMG; // If no backdrop, don't change poster
+        const voteElem = vote ? `<span class="tv-card__vote">${vote}</span>` : ''; // // If vote = 0, don't show span
 
         const card = document.createElement('li');
         card.idTV = id;
         card.classList.add('tv-shows__item');
         card.innerHTML = `
             <a href="#" id=${id} class="tv-card">
-            <span class=${tvCardVoteClass}>${voteElem}</span>
+                ${voteElem}
                 <img class="tv-card__img"
                     src="${posterIMG}"
                     data-backdrop="${backdropIMG}"
@@ -235,8 +213,6 @@ searchForm.addEventListener('submit', event => {
         tvShowsList.append(loading);
         new DBService().getSearchResult(value).then(renderCard);
     }
-    console.log(value);
-    // Clear search form after request
+    // Clear search form after sendingrequest
     searchFormInput.value = '';
-
 });
