@@ -271,20 +271,20 @@ const renderCard = (response, target) => {
 
         // Instructor's option to display message when movie isn't found
         // loading.remove();
-        // tvShowsHead.textContent = 'К сожалению, по вашему запросу ничего не найдено';
+        // tvShowsHead.textContent = 'Sorry, but nothing matched your search criteria. Please try again.';
         // tvShowsHead.style.cssText = 'color: red; border-bottom: 3px red;'
         // return
 
         const notFound = document.createElement('h2');
-        notFound.innerText = "По Вашему запросу ничего не найдено";
+        notFound.innerText = "Sorry, but nothing matched your search criteria. Please try again.";
         searchResultHeader.append(notFound);
         return
     }
 
-    tvShowsHead.textContent = target ? target.textContent : "Результат поиска";
+    tvShowsHead.textContent = target ? target.textContent : "Search Results";
 
     // Instructor's option for display message when movie isn't found
-    // tvShowsHead.textContent = 'Результат поиска';
+    // tvShowsHead.textContent = 'Search Results';
 
     // Render cards for found movies
     response.results.forEach(item => {
