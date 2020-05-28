@@ -173,6 +173,23 @@ tvShowsList.addEventListener('mouseout', changeImage);
 const renderCard = response => {
     // Clear list
     tvShowsList.textContent = '';
+
+    // Handle situations when movies are not found
+    const searchResultHeader = document.querySelector('.tv-shows__head');
+    const notFoundExists = searchResultHeader.querySelector('h2');
+    if (notFoundExists) {
+        searchResultHeader.removeChild(notFoundExists);
+    }
+
+    if (!response.total_results) {
+
+        const notFound = document.createElement('h2');
+        notFound.innerText = "По Вашему запросу ничего не найдено";
+        searchResultHeader.append(notFound);
+        return
+    }
+
+    // Render cards for found movies
     response.results.forEach(item => {
 
         const {
@@ -205,6 +222,7 @@ const renderCard = response => {
     });
 
 };
+
 
 // Handle search form
 searchForm.addEventListener('submit', event => {
