@@ -52,6 +52,10 @@ const DBService = class {
     getSearchResult = (query) => {
         return this.getData(`${API_ENDPOINT}/search/tv?api_key=${API_KEY}&query=${query}&language=ru-RU`);
     }
+
+    getTvShow = (id) => {
+        return this.getData(`${API_ENDPOINT}/tv/${id}?api_key=${API_KEY}&language=ru-RU`);
+    }
 }
 
 // Open/close menu
@@ -109,7 +113,7 @@ tvShowsList.addEventListener('click', event => {
     if (card) {
 
         // Fill in modal window
-        new DBService().getTestCard()
+        new DBService().getTvShow(card.id)
             .then(response => {
                 console.log(response);
                 tvCardImg.src = IMG_URL + response.poster_path;
@@ -123,12 +127,16 @@ tvShowsList.addEventListener('click', event => {
 
                 for (const item of response.genres) {
                     genresList.innerHTML += `<li>${item.name}</li>`;
-                }
+                };
+
 
                 // Alternative option using forEach
                 // response.genres.forEach(item => {
                 //    genresList.innerHTML += `<li>${item.name}</li>`;
                 //})
+                rating.textContent = response.vote_average;
+                description.textContent = response.overview;
+                modalLink.href = response.homepage;
             })
             .then(() => {
                 document.body.style.overflow = 'hidden';
@@ -179,7 +187,8 @@ const renderCard = response => {
             backdrop_path: backdrop,
             name: title,
             poster_path: poster,
-            vote_average: vote
+            vote_average: vote,
+            id
         } = item;
 
         // If no poster, render img/no-poster.jpg
@@ -199,9 +208,10 @@ const renderCard = response => {
         //        Insert ${voteElem} instead of span in card.innerHTML
 
         const card = document.createElement('li');
+        card.idTV = id;
         card.classList.add('tv-shows__item');
         card.innerHTML = `
-            <a href="#" class="tv-card">
+            <a href="#" id=${id} class="tv-card">
             <span class=${tvCardVoteClass}>${voteElem}</span>
                 <img class="tv-card__img"
                     src="${posterIMG}"
@@ -230,6 +240,3 @@ searchForm.addEventListener('submit', event => {
     searchFormInput.value = '';
 
 });
-
-
-// ==== DAY 3 ====
