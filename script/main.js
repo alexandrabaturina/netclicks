@@ -33,6 +33,10 @@ const searchFormInput = document.querySelector('.search__form-input');
 // Const for dropdown
 const dropdown = document.querySelectorAll('.dropdown');
 
+// Const for results when not found
+// Instructor's option
+tvShowsHead = document.querySelector('.tv-shows__head');
+
 // Get data from server
 const DBService = class {
     getData = async (url) => {
@@ -200,17 +204,28 @@ const renderCard = response => {
     // Handle situations when movies are not found
     const searchResultHeader = document.querySelector('.tv-shows__head');
     const notFoundExists = searchResultHeader.querySelector('h2');
+
+
     if (notFoundExists) {
         searchResultHeader.removeChild(notFoundExists);
     }
 
     if (!response.total_results) {
 
+        // Instructor's option to display message when movie isn't found
+        // loading.remove();
+        // tvShowsHead.textContent = 'К сожалению, по вашему запросу ничего не найдено';
+        // tvShowsHead.style.cssText = 'color: red; border-bottom: 3px red;'
+        // return
+
         const notFound = document.createElement('h2');
         notFound.innerText = "По Вашему запросу ничего не найдено";
         searchResultHeader.append(notFound);
         return
     }
+
+    // Instructor's option for display message when movie isn't found
+    // tvShowsHead.textContent = 'Результат поиска';
 
     // Render cards for found movies
     response.results.forEach(item => {
