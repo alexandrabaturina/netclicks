@@ -66,6 +66,14 @@ const DBService = class {
     getTvShow = (id) => {
         return this.getData(`${API_ENDPOINT}/tv/${id}?api_key=${API_KEY}&language=ru-RU`);
     }
+
+    getTopRated = () => this.getData(`${API_ENDPOINT}/tv/top_rated?api_key=${API_KEY}&language=ru-RU`);
+
+    getPopular = () => this.getData(`${API_ENDPOINT}/tv/popular?api_key=${API_KEY}&language=ru-RU`);
+
+    getToday = () => this.getData(`${API_ENDPOINT}/tv/airing_today?api_key=${API_KEY}&language=ru-RU`);
+
+    getWeek = () => this.getData(`${API_ENDPOINT}/tv/on_the_air?api_key=${API_KEY}&language=ru-RU`);
 }
 
 // Open/close menu
@@ -103,6 +111,24 @@ leftMenu.addEventListener('click', event => {
         leftMenu.classList.add('openMenu');
         hamburger.classList.add('open');
     }
+
+    // Dropdown menu links
+    if (target.closest('#top-rated')) {
+        new DBService().getTopRated().then(renderCard);
+    }
+
+    if (target.closest('#popular')) {
+        new DBService().getPopular().then(renderCard);
+    }
+
+    if (target.closest('#week')) {
+        new DBService().getWeek().then(renderCard);
+    }
+
+    if (target.closest('#today')) {
+        new DBService().getToday().then(renderCard);
+    }
+
 });
 
 // // Change images on tv cards onmouseover
@@ -282,3 +308,5 @@ searchForm.addEventListener('submit', event => {
     // Clear search form after sendingrequest
     searchFormInput.value = '';
 });
+
+
