@@ -106,6 +106,9 @@ tvShowsList.addEventListener('click', event => {
 
     if (card) {
 
+        // Show preloader while waiting for modal window to download
+        tvShows.append(loading);
+
         // Fill in modal window
         new DBService().getTvShow(card.id)
             .then(response => {
@@ -133,6 +136,7 @@ tvShowsList.addEventListener('click', event => {
             .then(() => {
                 document.body.style.overflow = 'hidden';
                 modalWindow.classList.remove('hide');
+                loading.remove();
             })
     }
 })
@@ -163,8 +167,6 @@ const changeImage = event => {
 
 tvShowsList.addEventListener('mouseover', changeImage);
 tvShowsList.addEventListener('mouseout', changeImage);
-
-
 
 
 // Render card
