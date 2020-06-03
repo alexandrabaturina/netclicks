@@ -68,7 +68,7 @@ const DBService = class {
     }
 
     getNextPage = page => {
-        return this.getData(this.temp + '$page=' + page);
+        return this.getData(this.temp + '&page=' + page);
     }
 
     getTvShow = (id) => {
@@ -256,7 +256,7 @@ const renderCard = (response, target) => {
     // Clear list
     tvShowsList.textContent = '';
 
-    // 
+    //
 
     // Handle situations when movies are not found
     const searchResultHeader = document.querySelector('.tv-shows__head');
@@ -318,13 +318,17 @@ const renderCard = (response, target) => {
         tvShowsList.append(card);
     });
 
-    // Number of pages fog pagination
-
+    // Number of pages for pagination
     pagination.textContent = '';
-
-    if (!target && response.total_pages > 1) {
-        for (let i = 1; i <= response.total_pages; i++) {
-            pagination.innerHTML += `<li><a href="#" class="pages">${i}</a></li>`;
+    if (response.total_pages > 1) {
+        const total = response.total_pages <= 10 ? response.total_pages : 10
+        const currentPage = response.page
+        for (let i = 1; i <= total; i++) {
+            if (i === currentPage) {
+                pagination.innerHTML += `<li><a href="#" class="active">${i}</a></li>`
+            } else {
+                pagination.innerHTML += `<li><a href="#" >${i}</a></li>`
+            }
         }
     }
 };
@@ -342,11 +346,11 @@ searchForm.addEventListener('submit', event => {
     searchFormInput.value = '';
 });
 
-pagination.addEventListener('click', (event) => {
-    event.preventDefault();
-    const target = event.target;
-    if (target.classList.contains('pages')) {
-        tvShows.append(loading);
-        dbService.getNextPage(target.textContent).then(renderCard);
-    }
+
+// Pagination
+pagination.addEventListener('click', event => {
+    const page = event.target.closest('a').textContent
+    tvShowsList.innerHTML = ''
+    tvShows.append(loading)
+    dbService.getNextPage(page).then(renderCard)
 })
