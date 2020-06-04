@@ -43,6 +43,11 @@ const modalContent = document.querySelector('.modal__content');
 // Pagination
 const pagination = document.querySelector('.pagination');
 
+// Trailers
+const trailer = document.getElementById('trailer');
+const headTrailer = document.getElementById('head-trailer');
+
+
 // Get data from server
 const DBService = class {
     getData = async (url) => {
@@ -52,14 +57,6 @@ const DBService = class {
         } else {
             throw new Error(`Failed to get data from ${url}`)
         }
-    }
-
-    getTestData = () => {
-        return this.getData('test.json');
-    }
-
-    getTestCard = () => {
-        return this.getData('card.json');
     }
 
     getSearchResult = (query) => {
@@ -82,6 +79,10 @@ const DBService = class {
     getToday = () => this.getData(`${API_ENDPOINT}/tv/airing_today?api_key=${API_KEY}&language=en-EN`);
 
     getWeek = () => this.getData(`${API_ENDPOINT}/tv/on_the_air?api_key=${API_KEY}&language=en-EN`);
+
+    getVideo = id => {
+        return this.getData(`${API_ENDPOINT}/tv/${id}/videos?api_key=${API_KEY}&language=en-EN`)
+    }
 }
 
 const dbService = new DBService();
@@ -189,7 +190,6 @@ tvShowsList.addEventListener('click', event => {
                     posterWrapper.style.display = 'none';
                 }
 
-
                 modalTitle.textContent = response.name;
 
                 // Clear genres list
@@ -207,7 +207,33 @@ tvShowsList.addEventListener('click', event => {
                 rating.textContent = response.vote_average;
                 description.textContent = response.overview;
                 modalLink.href = response.homepage;
+                return response.id
             })
+
+            // Add YouTube trailers
+            .then(dbService.getVideo)
+            .then(response => {
+                headTrailer.classList.add('hide');
+                trailer.textContent = '';
+                if (response.results.length) {
+                    headTrailer.classList.remove('hide');
+                    response.results.forEach(item => {
+                        const trailerItem = document.createElement('li');
+                        trailerItem.innerHTML = `
+                    <iframe
+                        width="400"
+                        height="300"
+                        src="https://www.youtube.com/embed/${item.key}"
+                        frameborder="0"
+                        allowfullscreen
+                    </iframe>
+                    // <h4>${item.name}</h4>
+                    `;
+                        trailer.append(trailerItem);
+                    })
+                }
+            })
+
             .then(() => {
                 document.body.style.overflow = 'hidden';
                 modalWindow.classList.remove('hide');
